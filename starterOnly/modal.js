@@ -83,14 +83,6 @@ function oneIsChecked(checkedList) {
 }
 */
 
-function validate() {
-  const firstName = document.getElementById("first").value;
-  const lastName = document.getElementById("last").value;
-  if (isValidFirstName(firstName) && isValidLastName(lastName)) {
-    return true;
-  }
-  return false;
-}
 const errorMessages = {
   firstname: "Must contain at least 2 letters",
   lastname: "Must contain at least 2 letters",
@@ -100,32 +92,68 @@ const errorMessages = {
   location: "Please select a city ",
   checkbox: "You must agree to terms and conditions",
 };
+
 function createErrorMessage(id, message) {
   const errorMsg = document.createElement("span");
   errorMsg.textContent = message;
   document.getElementById(id).parentElement.appendChild(errorMsg);
   errorMsg.classList.add("message-error");
+  return errorMsg;
 }
 
-createErrorMessage("first", errorMessages.firstname);
-createErrorMessage("last", errorMessages.lastname);
-createErrorMessage("email", errorMessages.email);
-createErrorMessage("birthdate", errorMessages.birthdate);
-createErrorMessage("quantity", errorMessages.quantity);
-createErrorMessage("location1", errorMessages.location);
-createErrorMessage("checkbox1", errorMessages.checkbox);
+const firstNameError = createErrorMessage("first", errorMessages.firstname);
+const lastNameError = createErrorMessage("last", errorMessages.lastname);
+const emailError = createErrorMessage("email", errorMessages.email);
+const dateError = createErrorMessage("birthdate", errorMessages.birthdate);
+const quantityError = createErrorMessage("quantity", errorMessages.quantity);
+const locationError = createErrorMessage("location1", errorMessages.location);
+const conditionError = createErrorMessage("checkbox1", errorMessages.checkbox);
 
-/*
-const errorMessages = {
-  firstname:"Must contain at least 2 letters",
-  lastName:"Must contain at least 2 letters",
-  email:"Please enter a valid e-mail adresse",
-  birthdate: "Please enter a valid birth date",
-  quantity:"Please enter a number superior to 0",
-  location:"Please select a city ",
-  checkbox:"You must agree to terms and conditions",
+function validate() {
+  const firstName = document.getElementById("first").value;
+  const lastName = document.getElementById("last").value;
+  if (
+    isValidFirstName(firstName) &&
+    isValidLastName(lastName) &&
+    isValidEmail(emailShape) &&
+    !isValidDate(date) &&
+    isValidTournamentNumber(tournamentnumber)
+  ) {
+    return true;
+  }
+
+  if (!isValidFirstName(firstName)) {
+    firstNameError.style.display = "inline";
+  } else {
+    firstNameError.style.display = "";
+  }
+
+  if (!isValidLastName(lastName)) {
+    lastNameError.style.display = "inline";
+  } else {
+    lastNameError.style.display = "";
+  }
+
+  if (!isValidEmail(email)) {
+    emailError.style.display = "inline";
+  } else {
+    emailError.style.display = "";
+  }
+
+  if (!isValidDate(birthdate)) {
+    dateError.style.display = "inline";
+  } else {
+    dateError.style.display = "";
+  }
+
+  if (!isValidTournamentNumber(quantity)) {
+    quantityError.style.display = "inline";
+  } else {
+    quantityError.style.display = "";
+  }
+
+  return false;
 }
-
 
 /*
  document.createElement('span').textContent='message-error';

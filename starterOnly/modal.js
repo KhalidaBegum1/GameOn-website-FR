@@ -48,7 +48,7 @@ function isValidLastName(last) {
 }
 
 function isValidTournamentNumber(tournamentnumber) {
-  return tournamentnumber >= 0;
+  return tournamentnumber.quantity >= 0;
 }
 
 function isValidEmail(email) {
@@ -68,20 +68,26 @@ function isValidDate(datestr) {
     return true;
   }
 }
-
+/*
 function oneIsChecked(checkedList) {
   return checkedList.includes(true);
-}
+}*/
 
-/*function conditionsAccepted(){
-  const conditionIsChecked = document.getElementById("checkbox1").checked;
-  if (conditionIsChecked){
+function locationIsChecked(locationChecked) {
+  if (locationChecked) {
     return true;
-  } else{
+  } else {
     return false;
   }
 }
-*/
+
+function conditionsAccepted(conditionIsChecked) {
+  if (conditionIsChecked) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
 const errorMessages = {
   firstname: "Must contain at least 2 letters",
@@ -112,12 +118,19 @@ const conditionError = createErrorMessage("checkbox1", errorMessages.checkbox);
 function validate() {
   const firstName = document.getElementById("first").value;
   const lastName = document.getElementById("last").value;
+  const emailShape = document.getElementById("email").value;
+  const date = document.getElementById("birthdate").value;
+  const tournamentNumber = document.getElementById("quantity").value;
+  const locationChecked = document.getElementById("location1").checked;
+  const conditionIsChecked = document.getElementById("checkbox1").checked;
   if (
     isValidFirstName(firstName) &&
     isValidLastName(lastName) &&
     isValidEmail(emailShape) &&
-    !isValidDate(date) &&
-    isValidTournamentNumber(tournamentnumber)
+    isValidDate(date) &&
+    isValidTournamentNumber(tournamentNumber) &&
+    conditionsAccepted(conditionIsChecked) &&
+    locationIsChecked(locationChecked)
   ) {
     return true;
   }
@@ -134,22 +147,33 @@ function validate() {
     lastNameError.style.display = "";
   }
 
-  if (!isValidEmail(email)) {
+  if (!isValidEmail(emailShape)) {
     emailError.style.display = "inline";
   } else {
     emailError.style.display = "";
   }
 
-  if (!isValidDate(birthdate)) {
+  if (!isValidDate(date)) {
     dateError.style.display = "inline";
   } else {
     dateError.style.display = "";
   }
 
-  if (!isValidTournamentNumber(quantity)) {
+  if (!isValidTournamentNumber(tournamentNumber)) {
     quantityError.style.display = "inline";
   } else {
     quantityError.style.display = "";
+  }
+
+  if (!conditionsAccepted(conditionIsChecked)) {
+    conditionError.style.display = "inline";
+  } else {
+    conditionError.style.display = "";
+  }
+  if (!locationIsChecked(locationChecked)) {
+    locationError.style.display = "inline";
+  } else {
+    locationError.style.display = "";
   }
 
   return false;
@@ -165,8 +189,3 @@ function validate() {
    errorAlert.classlist.add("message-error");
 
 }*/
-
-//My part: Message error
-
-/* document.createElement('span')= "message-error"
-const error= document.createElement */

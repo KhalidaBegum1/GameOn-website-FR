@@ -47,8 +47,13 @@ function isValidLastName(last) {
   return last.length >= 2;
 }
 
-function isValidTournamentNumber(tournamentnumber) {
-  return tournamentnumber.quantity >= 0;
+function isValidTournamentNumber(tournamentNumber) {
+  if (tournamentNumber) {
+    tournamentNumber >= 0;
+    return true;
+  } else {
+    false;
+  }
 }
 
 function isValidEmail(email) {

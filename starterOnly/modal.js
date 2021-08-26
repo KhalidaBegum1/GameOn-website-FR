@@ -73,13 +73,12 @@ function isValidDate(datestr) {
     return true;
   }
 }
-/*
+
 function oneIsChecked(checkedList) {
   return checkedList.includes(true);
-}*/
-
-function locationIsChecked(locationChecked) {
-  if (locationChecked) {
+}
+function locationChecked(locationIsChecked) {
+  if (locationIsChecked) {
     return true;
   } else {
     return false;
@@ -123,20 +122,27 @@ const conditionError = createErrorMessage("checkbox1", errorMessages.checkbox);
 function validate() {
   const firstName = document.getElementById("first").value;
   const lastName = document.getElementById("last").value;
-  const emailShape = document.getElementById("email").value;
+  const email = document.getElementById("email").value;
   const date = document.getElementById("birthdate").value;
   const tournamentNumber = document.getElementById("quantity").value;
-  const locationChecked = document.getElementById("location1").checked;
+
+  const locationsChecked = [];
+  // ajouter locations checked or not true/false
+  for (let i = 1; i <= 6; i++) {
+    locationsChecked.push(document.getElementById("location" + i).checked);
+  }
+
   const conditionIsChecked = document.getElementById("checkbox1").checked;
   if (
     isValidFirstName(firstName) &&
     isValidLastName(lastName) &&
-    isValidEmail(emailShape) &&
+    isValidEmail(email) &&
     isValidDate(date) &&
     isValidTournamentNumber(tournamentNumber) &&
     conditionsAccepted(conditionIsChecked) &&
-    locationIsChecked(locationChecked)
+    oneIsChecked(locationsChecked)
   ) {
+    alert("Your message has been sent");
     return true;
   }
 
@@ -152,7 +158,7 @@ function validate() {
     lastNameError.style.display = "";
   }
 
-  if (!isValidEmail(emailShape)) {
+  if (!isValidEmail(email)) {
     emailError.style.display = "inline";
   } else {
     emailError.style.display = "";
@@ -175,7 +181,7 @@ function validate() {
   } else {
     conditionError.style.display = "";
   }
-  if (!locationIsChecked(locationChecked)) {
+  if (!oneIsChecked(locationsChecked)) {
     locationError.style.display = "inline";
   } else {
     locationError.style.display = "";

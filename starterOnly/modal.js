@@ -48,12 +48,7 @@ function isValidLastName(last) {
 }
 
 function isValidTournamentNumber(tournamentNumber) {
-  if (tournamentNumber) {
-    tournamentNumber >= 0;
-    return true;
-  } else {
-    false;
-  }
+  return tournamentNumber !== "" && tournamentNumber >= 0;
 }
 
 function isValidEmail(email) {
@@ -78,19 +73,11 @@ function oneIsChecked(checkedList) {
   return checkedList.includes(true);
 }
 function locationChecked(locationIsChecked) {
-  if (locationIsChecked) {
-    return true;
-  } else {
-    return false;
-  }
+  return locationIsChecked;
 }
 
 function conditionsAccepted(conditionIsChecked) {
-  if (conditionIsChecked) {
-    return true;
-  } else {
-    return false;
-  }
+  return conditionIsChecked;
 }
 
 const errorMessages = {
@@ -98,7 +85,7 @@ const errorMessages = {
   lastname: "Must contain at least 2 letters",
   email: "Please enter a valid e-mail adresse",
   birthdate: "Please enter a valid birth date",
-  quantity: "Please enter a number superior to 0",
+  quantity: "Please enter a number equal or superior to 0",
   location: "Please select a city ",
   checkbox: "You must agree to terms and conditions",
 };
@@ -110,6 +97,15 @@ function createErrorMessage(id, message) {
   errorMsg.classList.add("message-error");
   return errorMsg;
 }
+
+const showError = (isWrong, domError) => {
+  if (isWrong) {
+    domError.style.display = "inline";
+  } else {
+    //by default domError is displayed none
+    domError.style.display = "";
+  }
+};
 
 const firstNameError = createErrorMessage("first", errorMessages.firstname);
 const lastNameError = createErrorMessage("last", errorMessages.lastname);
@@ -125,7 +121,6 @@ function validate() {
   const email = document.getElementById("email").value;
   const date = document.getElementById("birthdate").value;
   const tournamentNumber = document.getElementById("quantity").value;
-
   const locationsChecked = [];
   // ajouter locations checked or not true/false
   for (let i = 1; i <= 6; i++) {
@@ -133,6 +128,7 @@ function validate() {
   }
 
   const conditionIsChecked = document.getElementById("checkbox1").checked;
+
   if (
     isValidFirstName(firstName) &&
     isValidLastName(lastName) &&
@@ -146,57 +142,13 @@ function validate() {
     return true;
   }
 
-  if (!isValidFirstName(firstName)) {
-    firstNameError.style.display = "inline";
-  } else {
-    firstNameError.style.display = "";
-  }
-
-  if (!isValidLastName(lastName)) {
-    lastNameError.style.display = "inline";
-  } else {
-    lastNameError.style.display = "";
-  }
-
-  if (!isValidEmail(email)) {
-    emailError.style.display = "inline";
-  } else {
-    emailError.style.display = "";
-  }
-
-  if (!isValidDate(date)) {
-    dateError.style.display = "inline";
-  } else {
-    dateError.style.display = "";
-  }
-
-  if (!isValidTournamentNumber(tournamentNumber)) {
-    quantityError.style.display = "inline";
-  } else {
-    quantityError.style.display = "";
-  }
-
-  if (!conditionsAccepted(conditionIsChecked)) {
-    conditionError.style.display = "inline";
-  } else {
-    conditionError.style.display = "";
-  }
-  if (!oneIsChecked(locationsChecked)) {
-    locationError.style.display = "inline";
-  } else {
-    locationError.style.display = "";
-  }
+  showError(!isValidFirstName(firstName), firstNameError);
+  showError(!isValidLastName(lastName), lastNameError);
+  showError(!isValidEmail(email), emailError);
+  showError(!isValidDate(date), dateError);
+  showError(!isValidTournamentNumber(tournamentNumber), quantityError);
+  showError(!conditionsAccepted(conditionIsChecked), conditionError);
+  showError(!oneIsChecked(locationsChecked), locationError);
 
   return false;
 }
-
-/*
- document.createElement('span').textContent='message-error';
- parentElement.querySelector(".message-error").style.display = "inline";
-
-
- function displayError(error) {
-   const errorAlert= document.createElement('span')='message-error'.textcontent;
-   errorAlert.classlist.add("message-error");
-
-}*/
